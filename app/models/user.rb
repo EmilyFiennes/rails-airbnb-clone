@@ -6,6 +6,10 @@ class User < ApplicationRecord
 
   has_many :items
   has_many :reservations
+  validates :first_name, presence: true, length: { minimum: 2 }
+  validates :last_name, presence: true, length: { minimum: 2 }
+  validates :email, presence: true, uniqueness: true
+  validates :bio, length: { maximum: 500 }
 
   def self.find_for_facebook_oauth(auth)
     user_params = auth.to_h.slice(:provider, :uid)
