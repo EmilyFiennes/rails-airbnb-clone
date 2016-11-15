@@ -10,6 +10,10 @@
   justify-content: space-between;
 }
 
+.inline {
+  display: flex;
+}
+
 /* Optional class to fix the navbar on top */
 .navbar-wagon-fixed {
   position: fixed;
@@ -54,22 +58,22 @@
   padding: 0 20px;
   border-radius: 20em;
   line-height: 40px;
-  background-color: #D23333;
-  color: white;
+  background-color: transparent;
+  color: #616668;
   font-size: 14px;
-  border: 2px solid #D23333;
+  border: 2px solid transparent;
 }
 .navbar-wagon-button:hover {
-  color: white;
-  background: #D23333;
-  border-color: #ac2626;
+  color: #da552f;
+  text-decoration: none;
 }
 
 /* Navbar search form */
 .navbar-wagon-search {
   flex: 0 1 300px;
+  width: 300px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   padding: 0 10px;
   position: relative;
 }
