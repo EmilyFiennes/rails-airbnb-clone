@@ -1,19 +1,33 @@
-<h2>Sign up</h2>
-
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+<%= f.error_notification %>
+<div class="container login">
+  <div class="text-center">
+    <h3>Sign up now!</h3>
+    <p>Sign up in 2 sec with Facebook ...</p>
+      <%- if devise_mapping.omniauthable? %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+      <%= link_to "Connect with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-facebook" %><br />
+        <% end -%>
+      <% end -%>
+      <hr>
+      <p>Or in 20sec with email</p>
+      <div class="form-inputs">
+        <%= f.input :first_name, required: true, autofocus: true, :input_html => {:style => 'width: 250px'}%>
+        <%= f.input :last_name, required: true, autofocus: true %>
+        <%= f.input :email, required: true, autofocus: true %>
+        <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+        <%= f.input :password_confirmation, required: true %>
+      </div>
 
-  <div class="form-inputs">
-    <%= f.input :first_name, required: true, autofocus: true %>
-    <%= f.input :last_name, required: true, autofocus: true %>
-    <%= f.input :email, required: true, autofocus: true %>
-    <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
-    <%= f.input :password_confirmation, required: true %>
+      <div class="form-actions">
+        <%= f.button :submit, "Sign up" %>
+      </div>
+    <% end %>
+    <div>
+    <hr>
+      <p>Already a member? </p>
+      <%= link_to "Log in", new_session_path(resource_name), class: "btn btn-default" %><br />
+    </div>
+    <hr>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

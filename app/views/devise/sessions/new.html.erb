@@ -1,15 +1,29 @@
-<h2>Log in</h2>
+<div class="container login">
+    <div class="text-center">
+      <h2>Log in</h2>
+      <p>In 2 seconds with Facebook...</p>
+        <%- if devise_mapping.omniauthable? %>
+        <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= link_to "Connect with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-facebook"%><br />
+          <% end -%>
+        <% end -%>
+        <hr>
+        <hr>
+      <p>Or in 10s with your email</p>
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-inputs">
+          <%= f.input :email, required: false, autofocus: true %>
+          <%= f.input :password, required: false %>
+          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        </div>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email, required: false, autofocus: true %>
-    <%= f.input :password, required: false %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+        <div class="form-actions">
+          <%= f.button :submit, "Sign in" %>
+        </div>
+      <% end %>
+      <hr>
+      <p>Already a member? Sign up!</p>
+      <hr>
+      <%= link_to "Sign up", new_registration_path(resource_name), class: "btn btn-default" %><br />
+    </div>
+</div>
