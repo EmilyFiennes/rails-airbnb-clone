@@ -6,13 +6,18 @@
     <p>Sign up in 2 sec with Facebook ...</p>
       <%- if devise_mapping.omniauthable? %>
       <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= link_to "Connect with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-facebook" %><br />
+      <%= link_to omniauth_authorize_path(resource_name, provider), class: "btn btn-facebook" do %>
+        <span class="fa fa-facebook"></span>
+        Connect with <%= OmniAuth::Utils.camelize(provider) %>
+        <% end %>
+        <br />
         <% end -%>
       <% end -%>
       <hr>
       <p>Or in 20sec with email</p>
+      <div class="container login-form">
       <div class="form-inputs">
-        <%= f.input :first_name, required: true, autofocus: true, :input_html => {:style => 'width: 250px'}%>
+        <%= f.input :first_name, required: true, autofocus: true %>
         <%= f.input :last_name, required: true, autofocus: true %>
         <%= f.input :email, required: true, autofocus: true %>
         <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
@@ -21,6 +26,7 @@
 
       <div class="form-actions">
         <%= f.button :submit, "Sign up" %>
+      </div>
       </div>
     <% end %>
     <div>
