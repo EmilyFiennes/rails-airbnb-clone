@@ -18,8 +18,19 @@
     </div>
 
     <div class="media-section">
-      <p>Last reviews</p>
-      <%  %>
+    <% if @reviews.any? %>
+      <h3>Last reviews</h3>
+        <ul>
+      <% @reviews.each do |review| %>
+        <% @review = review %>
+        <% @user = @review.user.first_name %>
+      <% end %>
+      <% reviews = @reviews.pluck(:user_review, :user_rating) %>
+      <% reviews.each do |comment, rating| %>
+        <li><%= comment %>  by <%= @user %></li>
+      <% end %>
+      </ul>
+    <% end %>
     </div>
 
 

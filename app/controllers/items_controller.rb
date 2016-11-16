@@ -13,9 +13,11 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @reservations = Reservation.all
     @reservation = Reservation.new
-    @items = Item.where.not(latitude: nil, longitude: nil)
-    @hash = Gmaps4rails.build_markers(@items) do |item, marker|
+    @reviews = @reservations.where(item_id: @item.id)
+    @hash = Item.where.not(latitude: nil, longitude: nil)
+    @hash = Gmaps4rails.build_markers(@item) do |item, marker|
     marker.lat item.latitude
     marker.lng item.longitude
     end

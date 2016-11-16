@@ -115,9 +115,9 @@ end
   reservation = Reservation.new(
     start_on: DateTime.now + (1..5).to_a.sample,
     end_on: DateTime.now + (6..15).to_a.sample,
-    user_review: "Awesome",
+    user_review: ["Awesome", "Great", "Rubbish"].sample,
     user_rating: (0..5).to_a.sample,
-    owner_review: "Nice",
+    owner_review: ["Nice", "Awesome", "Rubbish"].sample,
     owner_rating: (0..5).to_a.sample,
     item_id: (1..20).to_a.sample,
     user_id: (1..10).to_a.sample
