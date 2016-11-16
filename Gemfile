@@ -10,6 +10,7 @@ gem 'redis'
 gem 'omniauth-facebook'
 gem 'faker'
 gem 'rest-client'
+gem "geocoder"
 
 gem 'sass-rails'
 gem 'jquery-rails'
