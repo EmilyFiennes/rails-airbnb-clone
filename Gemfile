@@ -13,6 +13,7 @@ gem 'rest-client'
 gem "geocoder"
 gem "coffee-rails"
 gem "gmaps4rails"
+gem 'devise'
 
 source 'https://rails-assets.org' do
   gem "rails-assets-underscore"
@@ -29,7 +30,6 @@ gem 'autoprefixer-rails'
 group :development, :test do
   gem 'binding_of_caller'
   gem 'better_errors'
-  gem 'devise'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'spring'
