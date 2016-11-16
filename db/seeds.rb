@@ -31,6 +31,7 @@ length = 90..250 #cm
 segment = ["male", "female", "teenager", "child"]
 skill_level =["beginner", "intermediate", "advanced", "expert", "godlike", "yvon"]
 price = 1..200 # EUR per day
+titles = ["Child's skis", "Snowboard great for all conditions", "Rent my super skis", "Men's carvers", "Woman's carvers"]
 
 # Seed for ski resorts
 ski_station_url = "https://en.wikipedia.org/wiki/List_of_ski_areas_and_resorts_in_Europe"
@@ -56,6 +57,7 @@ picture_url = "https://www.webe.com.my/website/static/images/no-photo.png"
 picture = "https://randomuser.me/api/portraits/men/1.jpg"
 user_rating  = (0..5).to_a.sample
 random_rating  = (0..5).to_a.sample
+pictures = ["https://static.pexels.com/photos/39344/cross-country-skiing-binding-langlaufschuh-cross-country-ski-39344.jpeg", "https://static.pexels.com/photos/30313/pexels-photo-30313.jpg"]
 
 10.times do
   first_name = Faker::Name.first_name
@@ -84,8 +86,9 @@ end
     skill_level: skill_level.sample,
     price: price.to_a.sample,
     ski_station: list_of_ski_stations.sample,
-    user_id: (1..10).to_a.sample
-
+    user_id: (1..10).to_a.sample,
+    title: titles.sample,
+    picture_url: pictures.sample
   )
   item.save
 end
@@ -100,7 +103,8 @@ end
     skill_level: skill_level.sample,
     price: price.to_a.sample,
     ski_station: list_of_ski_stations.sample,
-    user_id: (1..10).to_a.sample
+    user_id: (1..10).to_a.sample,
+    picture_url: pictures.sample
   )
   item.save
 end
