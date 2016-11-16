@@ -10,6 +10,6 @@ class Item < ApplicationRecord
   validates :ski_station, presence: true
   validates :user, presence: true
 
-    geocoded_by :ski_station
+  geocoded_by :ski_station
   after_validation :geocode, if: :ski_station_changed?
 end

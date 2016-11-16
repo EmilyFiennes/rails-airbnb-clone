@@ -74,7 +74,7 @@ pictures = ["https://static.pexels.com/photos/39344/cross-country-skiing-binding
   user.save
 end
 
-
+print "Creating items"
 10.times do
   item = Item.new(
     material_category: "ski",
@@ -91,6 +91,7 @@ end
     picture_url: pictures.sample
   )
   item.save
+  print "🎿  "
 end
 10.times do
   item = Item.new(
