@@ -1,14 +1,47 @@
 <div class="container">
-  <h1><%= @item.title %>
+  <h1><%= @item.title %></h1>
 
   <div class="media">
     <div class="media-body">
       <div class="media-section">
        <%= image_tag @item.picture_url %>
       </div>
-      <div class="media-section">
-      <%= item.
+
+      <div class="media-section" id="reservation">
+        <%= render 'shared/reservationform' %>
+      </div>
+
+    <div class="media-section">
+      <p>Model: <%= @item.model %> , <%= @item.model_year %></p>
+      <p>Ideal for: <%= @item.material_category %> , <%= @item.skill_level %></p>
+      <p>Location: <%= @item.ski_station %> </p>
     </div>
+
+    <div class="media-section">
+      <p>Last reviews</p>
+      <p>Ideal for: <%= @item.material_category %> , <%= @item.skill_level %></p>
+      <p>Location: <%= @item.ski_station %> </p>
+    </div>
+
+
+     <div id="map" style="width: 100%; height: 600px;"></div>
+        <% content_for(:after_js) do %>
+        <%= javascript_tag do %>
+          $(document).ready(function() {
+            var handler = Gmaps.build('Google');
+            handler.buildMap({ internal: { id: 'map' } }, function() {
+              markers = handler.addMarkers(<%= raw @hash.to_json %>);
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+              if (markers.length == 0) {
+                handler.getMap().setZoom(2);
+              } else if (markers.length == 1) {
+                handler.getMap().setZoom(14);
+              }
+            });
+          });
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
