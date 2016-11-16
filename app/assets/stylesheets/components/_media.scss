@@ -24,3 +24,17 @@
 .media-section:last-child {
   margin-bottom: 0;
 }
+
+#reservation {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  background-color: #ede6e6;
+  color: black;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}

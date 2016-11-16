@@ -12,7 +12,7 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Reservation.new
+    @reservation = Reservation.new(reservation_params)
     @reservation.item = @item
     if @reservation.save
       redirect_to user_path
@@ -34,5 +34,9 @@ class ReservationsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def reservation_params
+    params.require(:reservation).permit(:start_on, :end_on, :user_id)
   end
 end
