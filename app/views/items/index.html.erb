@@ -1,2 +1,20 @@
-<h1>Items#index</h1>
-<p>Find me in app/views/items/index.html.erb</p>
+<div class="container">
+  <h1>Les résultats de votre recherche</h1>
+  <div class="row">
+    <% @items.each do |item| %>
+      <div class="col-sm-6 col-md-4">
+        <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= item.picture_url || 'https://images.unsplash.com/photo-1453745558060-956d4c4deff8?dpr=2&auto=format&fit=crop&w=300&h=175&q=80&cs=tinysrgb&crop=' %>')">
+          <div class="card-category">
+            <h2><%= item.title %></h2>
+            <p>Category : <%= item.material_category %></p>
+            <p>For : <%= item.segment %></p>
+            <p>Station : <%= item.ski_station %></p>
+            <p>Price per day : <%= item.price %></p>
+          </div>
+          <%= link_to item_path(item) do  %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

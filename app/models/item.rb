@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   belongs_to :user
   has_many :availabilities
   has_many :reservations
+  validates :title, presence: true, length: { maximum: 100 }
   validates :material_category, presence: true
   validates :length, presence: true, numericality: true
   validates :segment, presence: true
