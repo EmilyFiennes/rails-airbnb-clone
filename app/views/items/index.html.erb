@@ -4,8 +4,6 @@
   <div class="col-sm-6">
     <% @items.each do |item| %>
     <div class="col-sm-6">
-      <% if item.picture_url? %>
-       <% item.picture_url = 'https://images.unsplash.com/photo-1453745558060-956d4c4deff8?dpr=2&auto=format&fit=crop&w=300&h=175&q=80&cs=tinysrgb&crop=' %>
          <%= link_to item_path(item) do  %>
           <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= item.picture_url %>')">
             <div class="card-category">
@@ -16,7 +14,6 @@
               <p>Price per day : <%= item.price %></p>
             </div>
           </div>
-        <% end %>
         <% end %>
         </div>
         <% end %>
