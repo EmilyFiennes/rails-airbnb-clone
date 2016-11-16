@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   def index
     # @items = Item.all
     # Changed items for the maps - can be changed
-    @items = Item.where.not(latitude: nil, longitude: nil)
+    @items = Item.where.not(latitude: nil, longitude: nil).take(6)
     @hash = Gmaps4rails.build_markers(@items) do |item, marker|
     marker.lat item.latitude
     marker.lng item.longitude
