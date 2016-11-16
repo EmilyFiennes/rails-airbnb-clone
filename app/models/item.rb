@@ -9,4 +9,7 @@ class Item < ApplicationRecord
   validates :price, presence: true, numericality: true
   validates :ski_station, presence: true
   validates :user, presence: true
+
+    geocoded_by :ski_station
+  after_validation :geocode, if: :ski_station_changed?
 end
