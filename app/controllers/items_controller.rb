@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_action :set_item, only: [:show]
+
   def index
     # @items = Item.all
     # Changed items for the maps - can be changed
@@ -11,12 +13,17 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @reservation = Reservation.new
   end
 
   def new
   end
 
   def create
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
   end
 end
 
