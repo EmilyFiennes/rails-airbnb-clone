@@ -12,12 +12,15 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Reservation.new(reservation_params)
+    user = current_user
+    @reservation = user.reservations.new(reservation_params)
     @reservation.item = @item
     if @reservation.save
-      redirect_to user_path
+      flash[:notice] = "Reservation successfully created. See details on your dashboard."
+      redirect_to @reservation.user
     else
-      redirect_to item_path
+      flash[:alert] = "Please review reservation form for errors."
+      render 'items/show'
     end
   end
 
@@ -37,6 +40,6 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:start_on, :end_on, :user_id)
+    params.require(:reservation).permit(:start_on, :end_on, :user_id, :item_id)
   end
 end

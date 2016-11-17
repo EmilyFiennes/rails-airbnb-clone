@@ -9,6 +9,6 @@ class Reservation < ApplicationRecord
   validate :end_on_cannot_be_less_than_start_on
   validates :item, presence: true
   validates :user, presence: true
-  validates :user_rating, numericality: { in: 0..5 }
-  validates :owner_rating, numericality: { in: 0..5 }
+  #validates :user_rating, numericality: { in: 0..5 }
+  #validates :owner_rating, numericality: { in: 0..5 }
 end
