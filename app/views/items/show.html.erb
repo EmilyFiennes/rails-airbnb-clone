@@ -8,6 +8,7 @@
       </div>
 
       <div class="media-section" id="reservation">
+        <h2> RESERVE THIS ITEM </h2>
         <%= render 'shared/reservationform' %>
       </div>
 
@@ -18,7 +19,7 @@
     </div>
 
     <div class="media-section">
-    <% if @reviews.any? %>
+    <% if @reviews %>
       <h3>Last reviews</h3>
         <ul>
       <% @reviews.each do |review| %>

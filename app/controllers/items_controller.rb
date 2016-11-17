@@ -24,13 +24,27 @@ class ItemsController < ApplicationController
   end
 
   def new
+    @item = Item.new
   end
 
   def create
+    @item = Item.new(item_params)
+    if @item.save
+      flash[:notice] = "Your item  #{@item.title} has been created"
+      redirect_to @item
+    else
+      render :new
+    end
   end
+
+  private
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def item_params
+    params.require(:items).permit(:user, :title, :material_category, :length, :segment, :price, :ski_station, :user_id)
   end
 end
 
