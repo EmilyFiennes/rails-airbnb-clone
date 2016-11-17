@@ -10,4 +10,12 @@ module DateValidatable
       errors.add(:end_on, "end date cannot be in the past")
     end
   end
+
+  def uniqueness_of_date_range
+    if Reservation.where(item: item)
+                  .where("? >= start_on AND ? <= end_on", self.start_on, self.end_on).any?
+        errors.add(:end_on, "Date range is not available")
+    end
+  end
 end
+
