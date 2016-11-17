@@ -1,10 +1,63 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-6">
-      <%= @user.first_name %>
+      <% number = rand(99) %>
+      <% picture =  @user.facebook_picture_url || "https://randomuser.me/api/portraits/men/#{number}.jpg"%>
+        <%= image_tag picture %>
     </div>
     <div class="col-sm-6">
-
+      <%= @user.first_name %>
+      <%= @user.last_name %>
+      <%= @user.created_at %>
+      Reservations : <%= @user.reservations.count %>
+      Bio : <%= @user.bio %>
+    </div>
+    <div class="col-sm-6">
+      <h1>OWNER REVIEWS</h1>
+      <% @user.reservations.each do |reservation| %>
+        Review: <%= reservation.owner_review %>
+        Rating: <%= reservation.owner_rating %>
+      <% end %>
+       <h1>USER REVIEWS</h1>
+      <% @user.reservations.each do |reservation| %>
+        Review: <%= reservation.user_review %>
+        Rating: <%= reservation.user_rating %>
+      <% end %>
+    </div>
+    <div class="col-sm-6">
+      <h1>RESERVATIONS</h1>
+      <% @user.reservations.each do |reservation| %>
+        <p> Item_id : <%= reservation.item_id %> </p>
+      <% end %>
+    </div>
+    <div class="col-sm-6">
+      <% @user.reservations.each do |reservation| %>
+      <ul>
+        <li>Validated on:<%= reservation.validated_on %></li>
+        <li>Cancelled on:<%= reservation.cancelled_on %></li>
+        <li>Declined on:<%= reservation.declined_on %></li>
+      </ul>
+        <ul>
+        <li>
+          <%= link_to accept_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+            <div class="btn btn-default">Accept</div>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to decline_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+            <div class="btn btn-default">Decline</div>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to cancel_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+            <div class="btn btn-default">Cancel</div>
+          <% end %>
+        </li>
+        </ul>
+        <% end %>
     </div>
   </div>
 </div>
+
+
+
