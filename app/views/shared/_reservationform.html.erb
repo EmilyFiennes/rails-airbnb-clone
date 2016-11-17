@@ -1,6 +1,7 @@
 <%= simple_form_for [@item, @reservation] do |f| %>
-  <%= f.input :start_on %>
-  <%= f.input :end_on %>
-  <%= f.button :submit %>
+  <%= f.input :start_on, as: :date, order: [:day, :month, :year] %>
+  <%= f.input :end_on, as: :date,
+                        order: [:day, :month, :year] %>
+  <%= f.button :submit, "Reserve now!" %>
 <% end %>
 
