@@ -28,6 +28,7 @@ class ReservationsController < ApplicationController
     user = current_user
     @reservation = Reservation.find(params[:id])
     @reservation.destroy
+    redirect_to @reservation.user
   end
 
   def cancel
