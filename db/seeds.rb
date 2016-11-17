@@ -105,6 +105,7 @@ end
     price: price.to_a.sample,
     ski_station: list_of_ski_stations.sample,
     user_id: (1..10).to_a.sample,
+    title: titles.sample,
     picture_url: pictures.sample
   )
   item.save

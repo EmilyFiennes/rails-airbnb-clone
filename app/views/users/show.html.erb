@@ -6,68 +6,149 @@
         <%= image_tag picture %>
     </div>
     <div class="col-sm-6">
-      <%= @user.first_name %>
-      <%= @user.last_name %>
-      <%= @user.created_at %>
-      Reservations : <%= @user.reservations.count %>
-      Bio : <%= @user.bio %>
+      <ul>
+        <li>First name: <%= @user.first_name %></li>
+        <li>Last name: <%= @user.last_name %></li>
+        <li>Created at: <%= @user.created_at %></li>
+        <li>Number of items owned: <%= @user.items.count %></li>
+        <li>Number of reservations made: <%= @user.reservations.count %></li>
+        <li>Bio : <%= @user.bio %></li>
+        <li>Average rating for items rented: <%= @user.reservations %></li>
+      </ul>
     </div>
     <div class="col-sm-6">
       <h1>OWNER REVIEWS</h1>
-      <% @user.reservations.each do |reservation| %>
-        Owner Review: <%= reservation.owner_review %>
-        Owner Rating: <%= reservation.owner_rating %>
-      <% end %>
-       <h1>USER REVIEWS</h1>
-      <% @user.reservations.each do |reservation| %>
-        Owner Review: <%= reservation.user_review %>
-        Owner Rating: <%= reservation.user_rating %>
+        <% if @user.reservations.count == 0 %>
+          No reviews yet.
+        <% else %>
+          <ul>
+            <% @user.reservations.each do |reservation| %>
+                <li>Owner Review: <%= reservation.owner_review %></li>
+                <li>Owner Rating: <%= reservation.owner_rating %></li>
+            <% end %>
+          </ul>
+        <% end %>
+         <h1>USER REVIEWS</h1>
+         <% if @user.reservations.count == 0 %>
+          No reviews yet.
+        <ul>
+          <% @user.reservations.each do |reservation| %>
+            <li>Owner Review: <%= reservation.user_review %></li>
+            <li>Owner Rating: <%= reservation.user_rating %></li>
+        <% end %>
+      </ul>
       <% end %>
     </div>
 
     <!-- THIS IS WHERE WE DISTINGUISH VISITOR/USER -->
 
     <div class="col-sm-6">
-      <h1>RESERVATIONS BY THE USER</h1>
-      <% @user.reservations.each do |reservation| %>
-        <p> Item_id : <%= reservation.item_id %> </p>
-      <% end %>
-    </div>
-    <div class="col-sm-6">
-      <% @user.reservations.each do |reservation| %>
+    <h1>MY OWNED ITEMS</h1>
+      <% if @user.items.count == 0 %>
+        This user doesn't own any item.
+      <% else %>
       <ul>
-        <li>Validated on:<%= reservation.validated_on %></li>
-        <li>Cancelled on:<%= reservation.cancelled_on %></li>
-        <li>Declined on:<%= reservation.declined_on %></li>
-      </ul>
-        <ul>
         <% @user.items.each do |item| %>
-          <h1><%= item.title %></h1>
-          <% item.reservations.each do |reservation| %>
-          <div>
-              reservation.item.picture_url
-              reservation.start_on
-              reservation.end_on
           <li>
-            <%= link_to accept_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
-              <div class="btn btn-default">Accept</div>
+            <%= image_tag item.picture_url, class: "avatar-large" %>
+            TITLE: <%= item.title %>
+              <% if item.reservations == 0 %>
+                <h1>No reservations for this item.</h1>
+              <% else %>
+            <ol>
+              <% item.reservations.each do|reservation| %>
+              <li>
+              <ul>
+                <% if reservation.user.facebook_picture_url? %>
+                  <li><%= image_tag reservation.user.facebook_picture_url %></li>
+                <% else %>
+                  <li>This user has no picture yet.</li>
+                <% end %>
+                <li>First name: <%= reservation.user.first_name %></li>
+                <li>Last name: <%= reservation.user.last_name %></li>
+                <li><%= reservation.start_on %></li>
+                <li><%= reservation.end_on %></li>
+                <li>
+                  STATUS:
+                  <% if reservation.validated_on == nil && reservation.declined_on == nil && reservation.cancelled_on == nil%>
+                    PENDING
+                  <% elsif reservation.cancelled_on? %>
+                    CANCELLED ON <%= reservation.cancelled_on %>
+                  <% elsif reservation.declined_on? %>
+                    DECLINED ON <%= reservation.declined_on %>
+                  <% else %>
+                    ACCEPTED ON <%= reservation.validated_on %>
+                  <% end %>
+                  <ul>
+                    <% if reservation.validated_on == nil && reservation.declined_on == nil %>
+                      <li>
+                        <%= link_to accept_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+                          <div class="btn btn-default">Accept</div>
+                        <% end %>
+                      <% end %>
+                    </li>
+                      <% if reservation.validated_on == nil && reservation.declined_on == nil %>
+                        <li>
+                          <%= link_to decline_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+                            <div class="btn btn-default">Decline</div>
+                          <% end %>
+                        <% end %>
+                      </li>
+                      <% if reservation.validated_on? && !(reservation.cancelled_on?) %>
+                      <li>
+                        <%= link_to cancel_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+                          <div class="btn btn-default">Cancel</div>
+                        <% end %>
+                      <% end %>
+                    </li>
+                    <hr>
+                </ul>
+                </li>
+              </ul>
+              </li>
+              <% end %>
+            </ol>
             <% end %>
           </li>
-          <li>
-            <%= link_to decline_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
-              <div class="btn btn-default">Decline</div>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to cancel_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
-              <div class="btn btn-default">Cancel</div>
-            <% end %>
-          </li>
-        </div>
         <% end %>
+      </ul>
+      <% end %>
+
+      <h1>RESERVATIONS BY THE USER</h1>
+      <% if @user.reservations.count == 0 %>
+        No reservations yet.
+      <% else %>
+        <% @user.reservations.each do |reservation| %>
+          <ul>
+            <li><%= image_tag reservation.item.picture_url, class: "avatar-large" %></li>
+            <li>title: <%= reservation.item.title %></li>
+            <li>Start on:<%= reservation.start_on %></li>
+            <li>End on:<%= reservation.end_on %></li>
+            <li>
+              STATUS:
+                <% if reservation.validated_on == nil && reservation.declined_on == nil && reservation.cancelled_on == nil%>
+                    PENDING
+                  <% elsif reservation.cancelled_on? %>
+                    CANCELLED ON <%= reservation.cancelled_on %>
+                  <% elsif reservation.declined_on? %>
+                    DECLINED ON <%= reservation.declined_on %>
+                  <% else %>
+                    ACCEPTED ON <%= reservation.validated_on %>
+                  <% end %>
+                <ul>
+                  <% if reservation.validated_on? && !(reservation.cancelled_on?) %>
+                    <li>
+                      <%= link_to cancel_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+                        <div class="btn btn-default">Cancel</div>
+                        <% end %>
+                      <% end %>
+                    </li>
+                    <hr>
+                </ul>
+            </li>
+          </ul>
         <% end %>
-        </ul>
-        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
