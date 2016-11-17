@@ -1,49 +1,57 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-6">
-      <% number = rand(99) %>
-      <% picture =  @user.facebook_picture_url || "https://randomuser.me/api/portraits/men/#{number}.jpg"%>
-        <%= image_tag picture %>
+    <div class="box">
+      <div class="col-sm-3">
+        <% number = rand(99) %>
+        <% picture =  @user.facebook_picture_url || "https://randomuser.me/api/portraits/men/#{number}.jpg"%>
+          <%= image_tag picture, class: "avatar-very-large" %>
+      </div>
+      <div class="col-sm-6">
+        <h2>Information</h2>
+        <ul>
+          <li>First name: <%= @user.first_name %></li>
+          <li>Last name: <%= @user.last_name %></li>
+          <li>Profile creation: <%= @user.created_at.strftime("%d/%m/%Y") %></li>
+          <li>Number of items owned: <%= @user.items.count %></li>
+          <li>Number of reservations made: <%= @user.reservations.count %></li>
+          <li>Bio : <%= @user.bio %></li>
+          <li>Average Rating: To come...
+           </li>
+        </ul>
+      </div>
     </div>
-    <div class="col-sm-6">
-      <ul>
-        <li>First name: <%= @user.first_name %></li>
-        <li>Last name: <%= @user.last_name %></li>
-        <li>Created at: <%= @user.created_at %></li>
-        <li>Number of items owned: <%= @user.items.count %></li>
-        <li>Number of reservations made: <%= @user.reservations.count %></li>
-        <li>Bio : <%= @user.bio %></li>
-        <li>Average rating for items rented: <%= @user.reservations %></li>
-      </ul>
-    </div>
-    <div class="col-sm-6">
-      <h1>OWNER REVIEWS</h1>
-        <% if @user.reservations.count == 0 %>
-          No reviews yet.
-        <% else %>
-          <ul>
-            <% @user.reservations.each do |reservation| %>
-                <li>Owner Review: <%= reservation.owner_review %></li>
-                <li>Owner Rating: <%= reservation.owner_rating %></li>
+    <div class="col-sm-9">
+      <div class="col-sm-12">
+        <h2>Reviews for <%= @user.first_name %> <%= @user.last_name %></h2>
+          <% if @user.reservations.count == 0 %>
+            No reviews yet.
+          <% else %>
+            <ol>
+              <% @user.reservations.each do |reservation| %>
+                  <li><p>Review:</p>
+                  <p><em><%= reservation.owner_review %></em> </p>
+                  <p>Rating: <%= reservation.owner_rating %>/5</p></li>
+              <% end %>
+            </ol>
+          <% end %>
+<!--         <div class="col-sm-12">
+             <h1>Reviews mad</h1>
+             <% if @user.reservations.count == 0 %>
+              No reviews yet.
+            <ul>
+              <% @user.reservations.each do |reservation| %>
+                <li>User Review: <%= reservation.user_review %></li>
+                <li>User Rating: <%= reservation.user_rating %></li>
             <% end %>
           </ul>
-        <% end %>
-         <h1>USER REVIEWS</h1>
-         <% if @user.reservations.count == 0 %>
-          No reviews yet.
-        <ul>
-          <% @user.reservations.each do |reservation| %>
-            <li>Owner Review: <%= reservation.user_review %></li>
-            <li>Owner Rating: <%= reservation.user_rating %></li>
-        <% end %>
-      </ul>
-      <% end %>
+          <% end %>
+        </div> -->
     </div>
 
     <!-- THIS IS WHERE WE DISTINGUISH VISITOR/USER -->
 
-    <div class="col-sm-6">
-    <h1>MY OWNED ITEMS</h1>
+    <div class="col-sm-12">
+    <h2>Items owned by <%= @user.first_name %> <%= @user.last_name %></h2>
       <% if @user.items.count == 0 %>
         This user doesn't own any item.
       <% else %>
@@ -51,7 +59,7 @@
         <% @user.items.each do |item| %>
           <li>
             <%= image_tag item.picture_url, class: "avatar-large" %>
-            TITLE: <%= item.title %>
+            <%= item.title %>
               <% if item.reservations == 0 %>
                 <h1>No reservations for this item.</h1>
               <% else %>
@@ -66,18 +74,18 @@
                 <% end %>
                 <li>First name: <%= reservation.user.first_name %></li>
                 <li>Last name: <%= reservation.user.last_name %></li>
-                <li><%= reservation.start_on %></li>
-                <li><%= reservation.end_on %></li>
+                <li>From: <%= reservation.start_on.strftime("%d/%m/%Y") %></li>
+                <li>To: <%= reservation.end_on.strftime("%d/%m/%Y") %></li>
                 <li>
-                  STATUS:
-                  <% if reservation.validated_on == nil && reservation.declined_on == nil && reservation.cancelled_on == nil%>
+                  Status:
+                  <% if reservation.validated_on == nil && reservation.declined_on == nil && reservation.cancelled_on == nil %>
                     PENDING
                   <% elsif reservation.cancelled_on? %>
-                    CANCELLED ON <%= reservation.cancelled_on %>
+                    Cancelled on <%= reservation.cancelled_on.strftime("%d/%m/%Y") %>
                   <% elsif reservation.declined_on? %>
-                    DECLINED ON <%= reservation.declined_on %>
+                    Declined on <%= reservation.declined_on.strftime("%d/%m/%Y") %>
                   <% else %>
-                    ACCEPTED ON <%= reservation.validated_on %>
+                    Accepted on <%= reservation.validated_on.strftime("%d/%m/%Y") %>
                   <% end %>
                   <ul>
                     <% if reservation.validated_on == nil && reservation.declined_on == nil %>
@@ -114,26 +122,26 @@
       </ul>
       <% end %>
 
-      <h1>RESERVATIONS BY THE USER</h1>
+      <h2>Reservations made by <%= @user.first_name %> <%= @user.last_name %></h2>
       <% if @user.reservations.count == 0 %>
         No reservations yet.
       <% else %>
         <% @user.reservations.each do |reservation| %>
           <ul>
             <li><%= image_tag reservation.item.picture_url, class: "avatar-large" %></li>
-            <li>title: <%= reservation.item.title %></li>
-            <li>Start on:<%= reservation.start_on %></li>
-            <li>End on:<%= reservation.end_on %></li>
+            <li><%= reservation.item.title %></li>
+            <li>Start on: <%= reservation.start_on.strftime("%d/%m/%Y") %></li>
+            <li>End on: <%= reservation.end_on.strftime("%d/%m/%Y") %></li>
             <li>
               STATUS:
                 <% if reservation.validated_on == nil && reservation.declined_on == nil && reservation.cancelled_on == nil%>
-                    PENDING
+                    Pending...
                   <% elsif reservation.cancelled_on? %>
-                    CANCELLED ON <%= reservation.cancelled_on %>
+                    Cancelled on <%= reservation.cancelled_on.strftime("%d/%m/%Y")  %>
                   <% elsif reservation.declined_on? %>
-                    DECLINED ON <%= reservation.declined_on %>
+                    Declined on <%= reservation.declined_on.strftime("%d/%m/%Y") %>
                   <% else %>
-                    ACCEPTED ON <%= reservation.validated_on %>
+                    Accepted on <%= reservation.validated_on.strftime("%d/%m/%Y") %>
                   <% end %>
                 <ul>
                   <% if reservation.validated_on? && !(reservation.cancelled_on?) %>
