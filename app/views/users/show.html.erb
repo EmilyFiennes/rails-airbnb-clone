@@ -1,10 +1,51 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-6">
-      <%= @user.first_name %>
+      <% number = rand(99) %>
+      <% picture =  @user.facebook_picture_url || "https://randomuser.me/api/portraits/men/#{number}.jpg"%>
+        <%= image_tag picture %>
     </div>
     <div class="col-sm-6">
-
+      <%= @user.first_name %>
+      <%= @user.last_name %>
+      <%= @user.created_at %>
+      <%= @user.reservations.count %>
+    </div>
+    <div class="col-sm-6">
+      <h1>OWNER REVIEWS</h1>
+      <% @user.reservations.each do |reservation| %>
+        Review: <%= reservation.owner_review %>
+        Rating: <%= reservation.owner_rating %>
+      <% end %>
+       <h1>USER REVIEWS</h1>
+      <% @user.reservations.each do |reservation| %>
+        Review: <%= reservation.user_review %>
+        Rating: <%= reservation.user_rating %>
+      <% end %>
+    </div>
+    <div class="col-sm-6">
+      <h1>RESERVATIONS</h1>
+      <% @user.reservations.each do |reservation| %>
+        <p> Item_id : <%= reservation.item_id %> </p>
+      <% end %>
+    </div>
+    <div class="col-sm-6">
+      <% @user.reservations.each do |reservation| %>
+        <ul>
+        <li>
+          <%= link_to "Accept this reservation", item_reservation_path(reservation.item, reservation), method: :accept, data: { confirm: "Are you sure?" } %>
+        </li>
+                <li>
+          <%= link_to "Decline this reservation", item_reservation_path(reservation.item, reservation), method: :decline, data: { confirm: "Are you sure?" } %>
+        </li>
+        <li>
+          <%= link_to "Cancel this reservation", item_reservation_path(reservation.item, reservation), method: :cancel, data: { confirm: "Are you sure?" } %>
+        </li>
+        </ul>
+        <% end %>
     </div>
   </div>
 </div>
+
+
+

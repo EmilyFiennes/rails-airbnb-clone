@@ -25,6 +25,28 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
+    user = current_user
+    @reservation = Reservation.find(params[:id])
+    @reservation.destroy
+    redirect_to user
+  end
+
+  def cancel
+    user = current_user
+    @reservation = Reservation.find(params[:id])
+    @reservation.cancelled_on = DateTime.now
+  end
+
+  def accept
+    user = current_user
+    @reservation = Reservation.find(params[:id])
+    @reservation.validated_on = DateTime.now
+  end
+
+  def decline
+    user = current_user
+    @reservation = Reservation.find(params[:id])
+    @reservation.decline_on = DateTime.now
   end
 
   def edit

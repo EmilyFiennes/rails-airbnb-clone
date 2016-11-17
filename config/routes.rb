@@ -23,7 +23,13 @@ Rails.application.routes.draw do
     controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
     resources :users, only: [:show]
     resources :items, only: [:index, :show, :new, :create] do
-      resources :reservations
+      resources :reservations do
+        member do
+          get 'cancel'
+          get 'accept'
+          get 'decline'
+        end
+      end
     end
   root to: 'pages#home'
 end
