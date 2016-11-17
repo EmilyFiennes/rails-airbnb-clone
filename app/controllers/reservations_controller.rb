@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_item, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_item, only: [:new, :create, :edit, :update, :destroy, :cancel, :accept, :decline]
 
   def index
   end
@@ -28,25 +28,27 @@ class ReservationsController < ApplicationController
     user = current_user
     @reservation = Reservation.find(params[:id])
     @reservation.destroy
-    redirect_to user
   end
 
   def cancel
-    user = current_user
     @reservation = Reservation.find(params[:id])
     @reservation.cancelled_on = DateTime.now
+       @reservation.save
+    redirect_to @reservation.user
   end
 
   def accept
-    user = current_user
     @reservation = Reservation.find(params[:id])
     @reservation.validated_on = DateTime.now
+    @reservation.save
+    redirect_to @reservation.user
   end
 
   def decline
-    user = current_user
     @reservation = Reservation.find(params[:id])
-    @reservation.decline_on = DateTime.now
+    @reservation.declined_on = DateTime.now
+    @reservation.save
+    redirect_to @reservation.user
   end
 
   def edit
@@ -62,6 +64,6 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:start_on, :end_on, :user_id, :item_id)
+    params.require(:reservation).permit(:start_on, :end_on, :user_id, :item_id, :validated_on)
   end
 end

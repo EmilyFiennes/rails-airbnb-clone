@@ -9,7 +9,8 @@
       <%= @user.first_name %>
       <%= @user.last_name %>
       <%= @user.created_at %>
-      <%= @user.reservations.count %>
+      Reservations : <%= @user.reservations.count %>
+      Bio : <%= @user.bio %>
     </div>
     <div class="col-sm-6">
       <h1>OWNER REVIEWS</h1>
@@ -31,15 +32,26 @@
     </div>
     <div class="col-sm-6">
       <% @user.reservations.each do |reservation| %>
+      <ul>
+        <li>Validated on:<%= reservation.validated_on %></li>
+        <li>Cancelled on:<%= reservation.cancelled_on %></li>
+        <li>Declined on:<%= reservation.declined_on %></li>
+      </ul>
         <ul>
         <li>
-          <%= link_to "Accept this reservation", item_reservation_path(reservation.item, reservation), method: :accept, data: { confirm: "Are you sure?" } %>
-        </li>
-                <li>
-          <%= link_to "Decline this reservation", item_reservation_path(reservation.item, reservation), method: :decline, data: { confirm: "Are you sure?" } %>
+          <%= link_to accept_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+            <div class="btn btn-default">Accept</div>
+          <% end %>
         </li>
         <li>
-          <%= link_to "Cancel this reservation", item_reservation_path(reservation.item, reservation), method: :cancel, data: { confirm: "Are you sure?" } %>
+          <%= link_to decline_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+            <div class="btn btn-default">Decline</div>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to cancel_item_reservation_path(reservation.item, reservation), method: :post, data: { confirm: "Are you sure?" } do %>
+            <div class="btn btn-default">Cancel</div>
+          <% end %>
         </li>
         </ul>
         <% end %>
