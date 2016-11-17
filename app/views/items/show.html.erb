@@ -1,5 +1,8 @@
 <div class="container">
   <h1><%= @item.title %></h1>
+   <% ratings = @item.reservations.map { |reservation| reservation.user_rating } %>
+   <%= average_stars(ratings) %>
+
 
   <div class="media">
     <div class="media-body">
@@ -19,17 +22,15 @@
     </div>
 
     <div class="media-section">
-    <% if @reviews %>
+    <% if @item.reservations.any? %>
       <h3>Last reviews</h3>
-        <ul>
-      <% @reviews.each do |review| %>
-        <% @review = review %>
-        <% @user = @review.user.first_name %>
-      <% end %>
-      <% reviews = @reviews.pluck(:user_review, :user_rating) %>
-      <% reviews.each do |comment, rating| %>
-        <li><%= comment %>  by <%= @user %></li>
-      <% end %>
+      <ul>
+        <% @item.reservations.each do |reservation| %>
+          <li>
+            <%= star(reservation.user_rating) %>
+            <%= reservation.user_review %> by <%= reservation.user %>
+          </li>
+        <% end %>
       </ul>
     <% end %>
     </div>
