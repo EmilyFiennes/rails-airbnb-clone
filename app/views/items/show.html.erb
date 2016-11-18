@@ -11,7 +11,7 @@
     <div class="media">
       <div class="media-body">
         <div class="media-section">
-         <% if @item.photo? %>
+         <% if @item.photo.present? %>
             <%= cl_image_tag @item.photo.path, width: 200, height: 300, crop: :fill %>
           <% else %>
             <%= image_tag @item.picture_url %>
@@ -31,7 +31,7 @@
 
     <div class="media-section">
       <h4>This item belongs to <%= @item.user %>
-      <%= link_to user_path (@item.user) do %>
+      <%= link_to user_path(@item.user) do %>
       <%= image_tag @item.user.facebook_picture_url, { class: "avatar avatar-square" }%></h4>
         <% end %>
     </div>
