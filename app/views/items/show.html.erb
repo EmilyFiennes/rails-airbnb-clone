@@ -31,9 +31,15 @@
 
     <div class="media-section">
       <h4>This item belongs to <%= @item.user %>
-      <%= link_to user_path(@item.user) do %>
-      <%= image_tag @item.user.facebook_picture_url, { class: "avatar avatar-square" }%></h4>
+      <% if @item.user.facebook_picture_url.present? %>
+        <%= link_to user_path(@item.user) do %>
+        <%= image_tag @item.user.facebook_picture_url, { class: "avatar avatar-square" }%>
         <% end %>
+      <% else %>
+        <%= link_to user_path(@item.user) do %>
+        <%= image_tag "http://turquoise.alteredorigin.net/images/characters/character-placeholder.png", {class: "avatar avatar-square"}%></h4>
+        <% end %>
+      <% end %>
     </div>
 
     <div class="media-section">
