@@ -63,13 +63,16 @@ pictures = ["https://static.pexels.com/photos/39344/cross-country-skiing-binding
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   password = Faker::Internet.password
+  number = rand(99)
   user = User.new(
     first_name: first_name,
     last_name: last_name,
     email: "#{first_name}.#{last_name}@gmail.com",
     bio: "No Time for a boring bio, I am Yvon's son.
           #yolo (except if you're a cat)",
-    password: password
+    password: password,
+    facebook_picture_url: "https://randomuser.me/api/portraits/men/#{number}.jpg"
+
   )
   user.save
 end
@@ -128,8 +131,8 @@ end
 
 (1..20).to_a.each do |i|
 availability = Availability.new(
-  start_on: DateTime.now + (1..5).to_a.sample,
-  end_on: DateTime.now + (6..15).to_a.sample,
+  start_on: DateTime.now,
+  end_on: DateTime.now + (15..30).to_a.sample,
   item_id: i
   )
 availability.save

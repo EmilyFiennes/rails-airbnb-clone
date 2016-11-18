@@ -33,21 +33,21 @@ class ReservationsController < ApplicationController
 
   def cancel
     @reservation = Reservation.find(params[:id])
-    @reservation.cancelled_on = DateTime.now
-       @reservation.save
+    @reservation.cancelled_on = Date.today
+    @reservation.save
     redirect_to @reservation.item.user
   end
 
   def accept
     @reservation = Reservation.find(params[:id])
-    @reservation.validated_on = DateTime.now
+    @reservation.validated_on = Date.today
     @reservation.save
     redirect_to @reservation.item.user
   end
 
   def decline
     @reservation = Reservation.find(params[:id])
-    @reservation.declined_on = DateTime.now
+    @reservation.declined_on = Date.today
     @reservation.save
     redirect_to @reservation.item.user
   end

@@ -11,5 +11,5 @@ class Reservation < ApplicationRecord
   validates :user, presence: true
   #validates :user_rating, numericality: { in: 0..5 }
   #validates :owner_rating, numericality: { in: 0..5 }
-  validate :uniqueness_of_date_range
+  # validate :uniqueness_of_date_range
 end
