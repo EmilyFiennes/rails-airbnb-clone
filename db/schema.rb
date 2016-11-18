@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116131424) do
+ActiveRecord::Schema.define(version: 20161118131942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attachinary_files", force: :cascade do |t|
+    t.string   "attachinariable_type"
+    t.integer  "attachinariable_id"
+    t.string   "scope"
+    t.string   "public_id"
+    t.string   "version"
+    t.integer  "width"
+    t.integer  "height"
+    t.string   "format"
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["attachinariable_type", "attachinariable_id", "scope"], name: "by_scoped_parent", using: :btree
+  end
 
   create_table "availabilities", force: :cascade do |t|
     t.datetime "start_on"
@@ -41,6 +56,7 @@ ActiveRecord::Schema.define(version: 20161116131424) do
     t.string   "picture_url"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "photo"
     t.index ["user_id"], name: "index_items_on_user_id", using: :btree
   end
 

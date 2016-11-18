@@ -11,7 +11,11 @@
   <div class="media">
     <div class="media-body">
       <div class="media-section">
-       <%= image_tag @item.picture_url %>
+        <% if @item.photo? %>
+          <%= cl_image_tag @item.photo.path, width: 200, height: 300, crop: :fill %>
+        <% else %>
+          <%= image_tag @item.picture_url %>
+        <% end %>
       </div>
 
       <div class="media-section" id="reservation">
@@ -23,6 +27,13 @@
       <p>Model: <%= @item.model %> , <%= @item.model_year %></p>
       <p>Ideal for: <%= @item.material_category %> , <%= @item.skill_level %></p>
       <p>Location: <%= @item.ski_station %> </p>
+    </div>
+
+    <div class="media-section">
+      <h4>This item belongs to <%= @item.user %>
+      <%= link_to user_path (@item.user) do %>
+      <%= image_tag @item.user.facebook_picture_url, { class: "avatar avatar-square" }%></h4>
+        <% end %>
     </div>
 
     <div class="media-section">
