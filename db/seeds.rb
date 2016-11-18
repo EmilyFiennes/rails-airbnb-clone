@@ -119,8 +119,8 @@ end
   user_review = Faker::Lorem.paragraph
   owner_review = Faker::Lorem.paragraph
   reservation = Reservation.new(
-    start_on: DateTime.now + (1..5).to_a.sample,
-    end_on: DateTime.now + (6..15).to_a.sample,
+    start_on: Date.today + (1..5).to_a.sample,
+    end_on: Date.today + (6..15).to_a.sample,
     user_review: user_review,
     user_rating: (0..5).to_a.sample,
     owner_review: owner_review,
@@ -133,8 +133,8 @@ end
 
 (1..20).to_a.each do |i|
 availability = Availability.new(
-  start_on: DateTime.now,
-  end_on: DateTime.now + (15..30).to_a.sample,
+  start_on: Date.today,
+  end_on: Date.today + (15..30).to_a.sample,
   item_id: i
   )
 availability.save
