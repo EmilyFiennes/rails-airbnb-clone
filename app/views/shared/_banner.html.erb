@@ -2,12 +2,15 @@
   <div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('https://images.unsplash.com/photo-1453745558060-956d4c4deff8?dpr=2&auto=format&fit=crop&w=1500&h=1125&q=80&cs=tinysrgb&crop=');">
     <div class="banner-content">
     <h2>Find cool gear near your place</h2>
-      <form id="searchbox" action="">
-      <input id="search" type="text" placeholder="Ski, Snow, Sledge, ...">
-      <input id="search" type="text" placeholder="Where">
-      <input id="search" type="text" placeholder="Start On">
-      <input id="search" type="text" placeholder="End On">
-      <%= link_to "Search", items_path, { class: "btn btn-primary btn-lg" }%>
+      <form id="searchbox" method="get" action="/items">
+        <select name="material_category">
+          <option value="ski" selected>Skis</option>
+          <option value="snowboard">Snowboard</option>
+        </select>
+        <input name="ski_station" type="text" placeholder="Where">
+        <input name="start_on" type="date" placeholder="Start on">
+        <input name="end_on" type="date" placeholder="End on">
+        <input type="submit" class="btn btn-primary" value="Search ⛷">
       </form>
       </div>
     </div>
