@@ -52,6 +52,7 @@
           <% end %>
         </div> -->
     </div>
+  </div>
 
     <!-- THIS IS WHERE WE DISTINGUISH VISITOR/USER -->
  <% if current_user != nil && @user.id == current_user.id %>
@@ -140,8 +141,9 @@
         <% end %>
       </ul>
       <% end %>
+    </div>
 
-
+    <div class="col-sm-12">
       <h2>Reservations made by <%= @user.first_name %> <%= @user.last_name %></h2>
       <% if @user.reservations.count == 0 %>
         No reservations yet.
@@ -192,9 +194,11 @@
           <% end %>
         <% end %>
       <% end %>
-    </div>
+      </div>
   </div>
 </div>
+
+
 
 
 
