@@ -12,25 +12,26 @@ class ItemsController < ApplicationController
     query = query.where("ski_station ILIKE ?", "%#{ski_station}%")
     query = query.where.not(latitude: nil, longitude: nil)
     @items = query.take(6)
-    if !start_on.empty? && Date.parse(start_on) < Date.today
+       @hash = Gmaps4rails.build_markers(@items) do |item, marker|
+      marker.lat item.latitude
+      marker.lng item.longitude
+    end
+    if !start_on.blank? && Date.parse(start_on) < Date.today
       flash[:alert] = "Date cannot be in the past"
       render 'pages/home'
     else
       @items = @items.select do |item|
         item.reservations.select do |reservation|
-          if !end_on.empty? && reservation.start_on < Date.parse(end_on)
+          if !end_on.blank? && reservation.start_on < Date.parse(end_on)
             return false
           end
-          if !start_on.empty? && reservation.end_on <= Date.parse(start_on)
+          if !start_on.blank? && reservation.end_on <= Date.parse(start_on)
             return false
           end
           return true
         end.count == 0
-      end
     end
-    @hash = Gmaps4rails.build_markers(@items) do |item, marker|
-    marker.lat item.latitude
-    marker.lng item.longitude
+
     # marker.infowindow render_to_string(partial: "/flats/map_box", locals: { flat: flat })
     end
   end
