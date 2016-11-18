@@ -1,5 +1,4 @@
 <div class="container">
-  <div class="text-center">
     <h1><%= @item.title %></h1>
     <% if current_user != nil && @item.user_id == current_user.id %>
     <span><%= link_to "Delete this item", item_path(@item), method: :delete, data: {confirm: "Do you really want to delete this item?"}, class: "btn btn-danger" %></span>
@@ -12,7 +11,11 @@
     <div class="media">
       <div class="media-body">
         <div class="media-section">
-         <%= image_tag @item.picture_url %>
+         <% if @item.photo? %>
+            <%= cl_image_tag @item.photo.path, width: 200, height: 300, crop: :fill %>
+          <% else %>
+            <%= image_tag @item.picture_url %>
+          <% end %>
         </div>
 
         <div class="media-section" id="reservation">
@@ -21,51 +24,11 @@
         </div>
 
       <div class="media-section">
-<<<<<<< HEAD
         <p>Model: <%= @item.model %> , <%= @item.model_year %></p>
         <p>Ideal for: <%= @item.material_category %> , <%= @item.skill_level %></p>
         <p>Location: <%= @item.ski_station %> </p>
-=======
-        <% if @item.photo? %>
-          <%= cl_image_tag @item.photo.path, width: 200, height: 300, crop: :fill %>
-        <% else %>
-          <%= image_tag @item.picture_url %>
-        <% end %>
->>>>>>> dfc280b2ab965eda4d5fe1f1faf39c4a60a85a2c
       </div>
 
-      <div class="media-section">
-        <h3>Last reviews</h3>
-        <ul>
-          <% @item.reservations.each do |reservation| %>
-          <% if reservation.user_review.present? %>
-            <li>
-              <%= star(reservation.user_rating) if reservation.user_rating != nil %>
-              <%= reservation.user_review %> by <%= reservation.user %>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-      </div>
-
-
-<<<<<<< HEAD
-       <div id="map" style="width: 100%; height: 600px;"></div>
-          <% content_for(:after_js) do %>
-          <%= javascript_tag do %>
-            $(document).ready(function() {
-              var handler = Gmaps.build('Google');
-              handler.buildMap({ internal: { id: 'map' } }, function() {
-                markers = handler.addMarkers(<%= raw @hash.to_json %>);
-                handler.bounds.extendWith(markers);
-                handler.fitMapToBounds();
-                if (markers.length == 0) {
-                  handler.getMap().setZoom(2);
-                } else if (markers.length == 1) {
-                  handler.getMap().setZoom(14);
-                }
-              });
-=======
     <div class="media-section">
       <h4>This item belongs to <%= @item.user %>
       <%= link_to user_path (@item.user) do %>
@@ -75,15 +38,12 @@
 
     <div class="media-section">
       <h3>Last reviews</h3>
-      <ul>
         <% @item.reservations.each do |reservation| %>
         <% if reservation.user_review.present? %>
-          <li>
-            <%= star(reservation.user_rating) if reservation.user_rating != nil %>
-            <%= reservation.user_review %> by <%= reservation.user %>
-          </li>
+          <p><%= star(reservation.user_rating) if reservation.user_rating != nil %></p>
+          <p><%= reservation.user_review %></p>
+          <p> by <%= reservation.user %></p>
         <% end %>
-      </ul>
     <% end %>
     </div>
 
@@ -102,8 +62,8 @@
               } else if (markers.length == 1) {
                 handler.getMap().setZoom(14);
               }
->>>>>>> dfc280b2ab965eda4d5fe1f1faf39c4a60a85a2c
             });
+          });
           <% end %>
         <% end %>
       </div>
