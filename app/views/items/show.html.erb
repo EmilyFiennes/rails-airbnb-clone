@@ -1,6 +1,6 @@
 <div class="container">
   <h1><%= @item.title %></h1>
-  <% if @item.user.id == current_user.id %>
+  <% if current_user != nil && @item.user_id == current_user.id %>
   <span><%= link_to "Delete this item", item_path(@item), method: :delete, data: {confirm: "Do you really want to delete this item?"}, class: "btn btn-danger" %></span>
   <% end %>
    <% ratings = @item.reservations.pluck(:user_rating) %>
@@ -27,7 +27,6 @@
 
     <div class="media-section">
       <h3>Last reviews</h3>
-      <% end %>
       <ul>
         <% @item.reservations.each do |reservation| %>
         <% if reservation.user_review.present? %>
