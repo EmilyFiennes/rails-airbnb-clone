@@ -1,16 +1,21 @@
-<%= simple_form_for [@item] do |f| %>
-  <%= f.input :title, { maxlength: 100 } %>
-  <%= f.input :brand_name %>
-  <%= f.input :material_category, collection: ["skis", "snowboard"] %>
-  <%= f.input :model %>
-  <%= f.input :model_year, as: :date, order: [:year] %>
-  <%= f.input :length, collection: 0..200 %>
-  <%= f.input :segment, collection: ["Men", "Women", "Children"] %>
-  <%= f.input :skill_level, collection: ["Beginner", "Beginner-Intermediate", "Intermediate", "Intermediate-Advanced", "Expert"] %>
-  <%= f.input :price, as: :currency, label: "Price per day (€)" %>
-  <%= f.input :ski_station %>
-  <%= f.input :picture_url %>
-  <%= f.button :submit, "Create this now!" %>
-<% end %>
-
+<div class="container">
+  <div class="text-center">
+    <div class="item_form">
+      <%= simple_form_for [@item] do |f| %>
+        <%= f.input :title, { maxlength: 100 } %>
+        <%= f.input :brand_name %>
+        <%= f.input :material_category, collection: ["skis", "snowboard"] %>
+        <%= f.input :model %>
+        <%= f.input :model_year, as: :date, order: [:year] %>
+        <%= f.input :length, collection: 0..200 %>
+        <%= f.input :segment, collection: ["Men", "Women", "Children"] %>
+        <%= f.input :skill_level, collection: ["Beginner", "Beginner-Intermediate", "Intermediate", "Intermediate-Advanced", "Expert"] %>
+        <%= f.input :price, as: :currency, label: "Price per day (€)" %>
+        <%= f.input :ski_station %>
+        <%= f.input :picture_url %>
+        <%= f.button :submit, "Create this now!" %>
+      <% end %>
+    </div>
+  </div>
+</div>
 

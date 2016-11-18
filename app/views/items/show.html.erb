@@ -1,63 +1,65 @@
 <div class="container">
-  <h1><%= @item.title %></h1>
-  <% if current_user != nil && @item.user_id == current_user.id %>
-  <span><%= link_to "Delete this item", item_path(@item), method: :delete, data: {confirm: "Do you really want to delete this item?"}, class: "btn btn-danger" %></span>
-  <% end %>
-   <% ratings = @item.reservations.pluck(:user_rating) %>
-   <% ratings = ratings.select { |rating| rating != nil} %>
-   <%= average_stars(ratings) if ratings.any? %>
-
-
-  <div class="media">
-    <div class="media-body">
-      <div class="media-section">
-       <%= image_tag @item.picture_url %>
-      </div>
-
-      <div class="media-section" id="reservation">
-        <h2> RESERVE THIS ITEM </h2>
-        <%= render 'shared/reservationform' %>
-      </div>
-
-    <div class="media-section">
-      <p>Model: <%= @item.model %> , <%= @item.model_year %></p>
-      <p>Ideal for: <%= @item.material_category %> , <%= @item.skill_level %></p>
-      <p>Location: <%= @item.ski_station %> </p>
-    </div>
-
-    <div class="media-section">
-      <h3>Last reviews</h3>
-      <ul>
-        <% @item.reservations.each do |reservation| %>
-        <% if reservation.user_review.present? %>
-          <li>
-            <%= star(reservation.user_rating) if reservation.user_rating != nil %>
-            <%= reservation.user_review %> by <%= reservation.user %>
-          </li>
-        <% end %>
-      </ul>
+  <div class="text-center">
+    <h1><%= @item.title %></h1>
+    <% if current_user != nil && @item.user_id == current_user.id %>
+    <span><%= link_to "Delete this item", item_path(@item), method: :delete, data: {confirm: "Do you really want to delete this item?"}, class: "btn btn-danger" %></span>
     <% end %>
-    </div>
+     <% ratings = @item.reservations.pluck(:user_rating) %>
+     <% ratings = ratings.select { |rating| rating != nil} %>
+     <%= average_stars(ratings) if ratings.any? %>
 
 
-     <div id="map" style="width: 100%; height: 600px;"></div>
-        <% content_for(:after_js) do %>
-        <%= javascript_tag do %>
-          $(document).ready(function() {
-            var handler = Gmaps.build('Google');
-            handler.buildMap({ internal: { id: 'map' } }, function() {
-              markers = handler.addMarkers(<%= raw @hash.to_json %>);
-              handler.bounds.extendWith(markers);
-              handler.fitMapToBounds();
-              if (markers.length == 0) {
-                handler.getMap().setZoom(2);
-              } else if (markers.length == 1) {
-                handler.getMap().setZoom(14);
-              }
-            });
-          });
-        <% end %>
+    <div class="media">
+      <div class="media-body">
+        <div class="media-section">
+         <%= image_tag @item.picture_url %>
+        </div>
+
+        <div class="media-section" id="reservation">
+          <h2> RESERVE THIS ITEM </h2>
+          <%= render 'shared/reservationform' %>
+        </div>
+
+      <div class="media-section">
+        <p>Model: <%= @item.model %> , <%= @item.model_year %></p>
+        <p>Ideal for: <%= @item.material_category %> , <%= @item.skill_level %></p>
+        <p>Location: <%= @item.ski_station %> </p>
+      </div>
+
+      <div class="media-section">
+        <h3>Last reviews</h3>
+        <ul>
+          <% @item.reservations.each do |reservation| %>
+          <% if reservation.user_review.present? %>
+            <li>
+              <%= star(reservation.user_rating) if reservation.user_rating != nil %>
+              <%= reservation.user_review %> by <%= reservation.user %>
+            </li>
+          <% end %>
+        </ul>
       <% end %>
+      </div>
+
+
+       <div id="map" style="width: 100%; height: 600px;"></div>
+          <% content_for(:after_js) do %>
+          <%= javascript_tag do %>
+            $(document).ready(function() {
+              var handler = Gmaps.build('Google');
+              handler.buildMap({ internal: { id: 'map' } }, function() {
+                markers = handler.addMarkers(<%= raw @hash.to_json %>);
+                handler.bounds.extendWith(markers);
+                handler.fitMapToBounds();
+                if (markers.length == 0) {
+                  handler.getMap().setZoom(2);
+                } else if (markers.length == 1) {
+                  handler.getMap().setZoom(14);
+                }
+              });
+            });
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
