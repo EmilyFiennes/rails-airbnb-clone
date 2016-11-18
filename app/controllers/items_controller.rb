@@ -14,10 +14,11 @@ class ItemsController < ApplicationController
     @items = query.take(6)
     @items = @items.select do |item|
       item.reservations.select do |reservation|
-        if reservation.start_on > end_on
+        raise
+        if !end_on.empty? && reservation.start_on > end_on
           return false
         end
-        if reservation.end_on >= start_on
+        if !start_on.empty? && reservation.end_on >= start_on
           return false
         end
         return true
