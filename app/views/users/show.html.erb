@@ -54,7 +54,7 @@
     </div>
 
     <!-- THIS IS WHERE WE DISTINGUISH VISITOR/USER -->
-    <% if @user.id == current_user.id %>
+ <% if current_user != nil && @user.id == current_user.id %>
     <div class="col-sm-12">
     <h2>Items owned by <%= @user.first_name %> <%= @user.last_name %></h2>
       <% if @user.items.count == 0 %>
@@ -91,6 +91,20 @@
                     Declined on <%= reservation.declined_on.strftime("%d/%m/%Y") %>
                   <% else %>
                     Accepted on <%= reservation.validated_on.strftime("%d/%m/%Y") %>
+                    <% if reservation.end_on <= Date.today %>
+                    <% if reservation.owner_review == nil %>
+                      <p>Leave a review for <%= reservation.user.first_name %> <%= reservation.user.last_name %></p>
+                      <%= simple_form_for [ item, reservation ] do |form| %>
+                        <%= form.input :owner_review %>
+                        <%= form.input :owner_rating %>
+                        <%= form.button :submit, method: :post %>
+                        <% end %>
+                    <% else %>
+                      <p>Your review</p>
+                      <p><%= reservation.owner_review %></p>
+                      <p><%= star(reservation.owner_rating) %></p>
+                      <% end %>
+                    <% end %>
                   <% end %>
                   <ul>
                     <% if reservation.validated_on == nil && reservation.declined_on == nil %>
@@ -126,8 +140,8 @@
         <% end %>
       </ul>
       <% end %>
-      <% end %>
-      <% if @user.id == current_user.id %>
+
+
       <h2>Reservations made by <%= @user.first_name %> <%= @user.last_name %></h2>
       <% if @user.reservations.count == 0 %>
         No reservations yet.
@@ -148,6 +162,20 @@
                     Declined on <%= reservation.declined_on.strftime("%d/%m/%Y") %>
                   <% else %>
                     Accepted on <%= reservation.validated_on.strftime("%d/%m/%Y") %>
+                    <% if reservation.end_on <= Date.today %>
+                    <% if reservation.user_review == nil %>
+                      <p>Leave a review for <%= reservation.user.first_name %> <%= reservation.user.last_name %></p>
+                      <%= simple_form_for [ reservation.item, reservation ] do |form| %>
+                        <%= form.input :user_review %>
+                        <%= form.input :user_rating %>
+                        <%= form.button :submit, method: :post %>
+                        <% end %>
+                    <% else %>
+                      <p>Your review</p>
+                      <p><%=reservation.user_review%></p>
+                      <p><%= star(reservation.user_rating) %></p>
+                      <% end %>
+                    <% end %>
                   <% end %>
                 <ul>
                   <% if reservation.validated_on? && !(reservation.cancelled_on?) %>

@@ -34,28 +34,33 @@ class ReservationsController < ApplicationController
   def cancel
     @reservation = Reservation.find(params[:id])
     @reservation.cancelled_on = Date.today
-    @reservation.save
+    @reservation.save(:validate => false)
     redirect_to @reservation.item.user
   end
 
   def accept
     @reservation = Reservation.find(params[:id])
     @reservation.validated_on = Date.today
-    @reservation.save
+    @reservation.save(:validate => false)
     redirect_to @reservation.item.user
   end
 
   def decline
     @reservation = Reservation.find(params[:id])
     @reservation.declined_on = Date.today
-    @reservation.save
+    @reservation.save(:validate => false)
     redirect_to @reservation.item.user
   end
 
   def edit
+    @reservation = Reservation.find(params[:id])
   end
 
   def update
+    @reservation = Reservation.find(params[:id])
+    @reservation.assign_attributes(update_params)
+    @reservation.save(:validate => false)
+    redirect_to current_user
   end
 
   private
@@ -65,6 +70,10 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:start_on, :end_on, :user_id, :item_id, :validated_on)
+    params.require(:reservation).permit(:start_on, :end_on, :user_id, :item_id, :validated_on, :user_review, :user_rating, :owner_review, :owner_rating)
+  end
+
+  def update_params
+    params.require(:reservation).permit(:user_review, :user_rating, :owner_review, :owner_rating)
   end
 end
