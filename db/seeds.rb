@@ -29,7 +29,7 @@ model_snow = ["all-mountain", "freestyle", "splitboard"]
 model_year = 1980..2016
 length = 90..250 #cm
 segment = ["male", "female", "teenager", "child"]
-skill_level =["beginner", "intermediate", "advanced", "expert", "godlike", "yvon"]
+skill_level =["beginner", "intermediate", "advanced", "expert", "godlike"]
 price = 1..200 # EUR per day
 titles = ["Child's skis", "Snowboard great for all conditions", "Rent my super skis", "Men's carvers", "Woman's carvers"]
 
@@ -63,13 +63,13 @@ pictures = ["https://static.pexels.com/photos/39344/cross-country-skiing-binding
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   password = Faker::Internet.password
+  bio = Faker::Lorem.sentence(4)
   number = rand(99)
   user = User.new(
     first_name: first_name,
     last_name: last_name,
     email: "#{first_name}.#{last_name}@gmail.com",
-    bio: "No Time for a boring bio, I am Yvon's son.
-          #yolo (except if you're a cat)",
+    bio: bio,
     password: password,
     facebook_picture_url: "https://randomuser.me/api/portraits/men/#{number}.jpg"
 
@@ -116,12 +116,14 @@ end
 
 
 10.times do
+  user_review = Faker::Lorem.paragraph
+  owner_review = Faker::Lorem.paragraph
   reservation = Reservation.new(
     start_on: DateTime.now + (1..5).to_a.sample,
     end_on: DateTime.now + (6..15).to_a.sample,
-    user_review: ["Awesome", "Great", "Rubbish"].sample,
+    user_review: user_review,
     user_rating: (0..5).to_a.sample,
-    owner_review: ["Nice", "Awesome", "Rubbish"].sample,
+    owner_review: owner_review,
     owner_rating: (0..5).to_a.sample,
     item_id: (1..20).to_a.sample,
     user_id: (1..10).to_a.sample
