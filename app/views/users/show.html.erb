@@ -1,25 +1,25 @@
 <div class="container">
   <div class="row">
-    <div class="box">
       <div class="col-sm-3">
         <% number = rand(99) %>
         <% picture =  @user.facebook_picture_url || "https://randomuser.me/api/portraits/men/#{number}.jpg"%>
           <%= image_tag picture, class: "avatar-very-large" %>
       </div>
-      <div class="col-sm-6">
-        <h2>Information</h2>
-        <ul>
-          <li>First name: <%= @user.first_name %></li>
-          <li>Last name: <%= @user.last_name %></li>
-          <li>Profile creation: <%= @user.created_at.strftime("%d/%m/%Y") %></li>
-          <li>Number of items owned: <%= @user.items.count %></li>
-          <li>Number of reservations made: <%= @user.reservations.count %></li>
-          <li>Bio : <%= @user.bio %></li>
-          <li>Average Rating: To come...
-           </li>
-        </ul>
+      <div class= "information">
+        <div class="col-sm-6">
+          <h2>Information</h2>
+          <ul>
+            <li>First name: <%= @user.first_name %></li>
+            <li>Last name: <%= @user.last_name %></li>
+            <li>Profile creation: <%= @user.created_at.strftime("%d/%m/%Y") %></li>
+            <li>Number of items owned: <%= @user.items.count %></li>
+            <li>Number of reservations made: <%= @user.reservations.count %></li>
+            <li>Bio : <%= @user.bio %></li>
+            <li>Average Rating: To come...
+             </li>
+          </ul>
+        </div>
       </div>
-    </div>
     <div class="col-sm-9">
       <div class="col-sm-12">
         <h2>Reviews for <%= @user.first_name %> <%= @user.last_name %></h2>
