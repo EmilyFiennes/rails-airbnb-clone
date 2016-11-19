@@ -64,7 +64,13 @@
       <ul>
         <% @user.items.each do |item| %>
           <li>
-            <%= link_to image_tag(item.picture_url, class: "avatar-large"), item_path  %>
+          <% if item.photo.present? %>
+            <%= link_to item_path(item) do %>
+              <%= cl_image_tag item.photo.path, class: "avatar-large" %>
+            <% end %>
+          <% else %>
+            <%= link_to image_tag(item.picture_url, class: "avatar-large"), item_path(item)  %>
+          <% end %>
             <%= item.title %>
               <% if item.reservations.count == 0 %>
                 <p>No reservations for this item.</p>
